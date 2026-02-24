@@ -15,10 +15,13 @@
       "focused": false,
       "resizable": false,
       "transparent": true,
-      "includeFiles": ["*.html", "*.css", "*.jsdos"],
+      "includeFiles": ["*.html", "*.css", "*.jsdos", "*.png", "*.gif"],
       "caching": {
         "defaultDuration": 604800,
         "rules": []
+      },
+      "privileges": {
+        "shellCommands": []
       },
       "presets": [
         {

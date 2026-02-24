@@ -6,6 +6,10 @@ Windows 10/11 only. Requires Zebar v3.0+.
 
 ![DOOM in your taskbar](https://img.shields.io/badge/DOOM-in_your_taskbar-red?style=flat-square)
 
+![DOOM widget in the Zebar bar](doom-widget-screenshot.png)
+
+![DOOM attract mode running in the bar](doom-widget-preview.gif)
+
 ## How It Works
 
 The widget has two states:

@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "description": "Play DOOM shareware inside your Zebar bar. Shows attract mode in a tiny preview, click to expand and play.",
   "tags": ["doom", "game", "retro"],
+  "previewImages": ["./doom-widget-screenshot.png", "./doom-widget-preview.gif"],
   "widgets": [
     {
       "name": "doom",

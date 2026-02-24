@@ -83,6 +83,52 @@ The widget will appear as a tiny window showing DOOM's attract mode. Click to ex
 | `bar` | 64x40 | Tiny bar embed — click to expand |
 | `standalone` | 640x400 | Always-expanded game window |
 
+## Custom WADs
+
+You can swap in different WADs to play other DOOM content. Rebuild the `doom.jsdos` bundle with your WAD of choice:
+
+### DOOM (registered full version)
+
+If you own the full version, replace `DOOM1.WAD` with `DOOM.WAD`:
+
+```bash
+zip doom.jsdos DOOM.EXE DOOM.WAD
+```
+
+### DOOM II
+
+DOOM II uses a different executable and WAD. You'll need `DOOM2.EXE` and `DOOM2.WAD` from your copy:
+
+```bash
+zip doom.jsdos DOOM2.EXE DOOM2.WAD
+```
+
+Then update the `-c` command in `doom.html` to match:
+
+```js
+main(['-c', 'DOOM2.EXE']).then(function(ci) {
+```
+
+### Freedoom
+
+[Freedoom](https://freedoom.github.io/) is a free, open-source replacement WAD. Download `freedoom1.wad` (DOOM 1 compatible) or `freedoom2.wad` (DOOM 2 compatible), rename it to the expected filename, and bundle it:
+
+```bash
+# Freedoom Phase 1 (uses DOOM.EXE)
+mv freedoom1.wad DOOM1.WAD
+zip doom.jsdos DOOM.EXE DOOM1.WAD
+
+# Freedoom Phase 2 (uses DOOM2.EXE)
+mv freedoom2.wad DOOM2.WAD
+zip doom.jsdos DOOM2.EXE DOOM2.WAD
+```
+
+### Important notes
+
+- DOOM expects specific WAD filenames — `DOOM1.WAD` for shareware, `DOOM.WAD` for registered, `DOOM2.WAD` for DOOM II. Rename your WAD to match.
+- The executable must match the WAD type — `DOOM.EXE` for DOOM 1 WADs, `DOOM2.EXE` for DOOM 2 WADs.
+- Custom PWADs (mod WADs like Scythe, Eviternity, etc.) can be loaded by adding them to the ZIP and passing `-file MODNAME.WAD` as an extra `-c` arg in `doom.html`.
+
 ## Architecture
 
 - **`doom.html`** — All widget logic. Uses [js-dos 6.22](https://js-dos.com/6.22/current/js-dos.js) for the DOSBox emulator (loaded from CDN) and Tauri APIs from [esm.sh](https://esm.sh/) for window management.

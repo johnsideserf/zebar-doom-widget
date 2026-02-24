@@ -5,7 +5,7 @@
   "description": "Play DOOM shareware inside your Zebar bar. Shows attract mode in a tiny preview, click to expand and play.",
   "tags": ["doom", "game", "retro"],
   "repositoryUrl": "https://github.com/johnsideserf/zebar-doom-widget",
-  "previewImages": ["./doom-widget-screenshot.png", "./doom-widget-preview.gif"],
+  "previewImages": ["./doom-full-menu.jpg", "./doom-widget-preview.gif"],
   "widgets": [
     {
       "name": "doom",
@@ -15,7 +15,7 @@
       "focused": false,
       "resizable": false,
       "transparent": true,
-      "includeFiles": ["*.html", "*.css", "*.jsdos", "*.png", "*.gif"],
+      "includeFiles": ["*.html", "*.css", "*.jsdos", "*.png", "*.gif", "*.jpg"],
       "caching": {
         "defaultDuration": 604800,
         "rules": []

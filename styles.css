@@ -1,0 +1,62 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+}
+
+/* ── Canvas: default expanded mode — fills the window ── */
+#canvas {
+  display: block;
+  image-rendering: pixelated;
+}
+
+body.expanded #canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Compact (bar) mode: scale the native-res canvas into the tiny window ── */
+body.compact {
+  border: 1px solid rgba(255 100 100 / 30%);
+  border-radius: 4px;
+  box-shadow: 0 0 6px rgba(255 50 50 / 25%);
+}
+
+body.compact #canvas {
+  cursor: pointer;
+}
+
+/* ── Collapse button ── */
+#collapse-btn {
+  display: none;
+  position: fixed;
+  top: 4px;
+  right: 4px;
+  z-index: 9999;
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgba(255 255 255 / 30%);
+  border-radius: 4px;
+  background: rgba(0 0 0 / 60%);
+  color: #fff;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+#collapse-btn:hover {
+  background: rgba(200 50 50 / 80%);
+}
+
+body.expanded #collapse-btn {
+  display: flex;
+}

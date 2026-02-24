@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="./styles.css" />
+    <script src="https://js-dos.com/6.22/current/js-dos.js"></script>
+  </head>
+  <body class="compact">
+    <canvas id="canvas"></canvas>
+    <button id="collapse-btn" title="Collapse (F9)">&#x2715;</button>
+
+    <script>
+      // ── js-dos 6.22 initialization (regular script, no module) ──
+      var dosReady = false;
+      var dosMain = null;
+
+      Dos(document.getElementById('canvas'), {
+        wdosboxUrl: 'https://js-dos.com/6.22/current/wdosbox.js',
+      }).ready(function(fs, main) {
+        fs.extract('./doom.jsdos').then(function() {
+          main(['-c', 'DOOM.EXE']).then(function(ci) {
+            dosReady = true;
+            window._ci = ci;
+            console.log('DOOM emulator ready');
+          });
+        });
+      });
+    </script>
+
+    <script type="module">
+      import { getCurrentWindow } from 'https://esm.sh/@tauri-apps/api@2.0.2/window';
+      import { LogicalSize, LogicalPosition } from 'https://esm.sh/@tauri-apps/api@2.0.2/dpi';
+
+      const tauriWindow = getCurrentWindow();
+
+      // ── Capture preset geometry at startup ──
+      let presetSize = null;
+      let presetPos = null;
+
+      try {
+        const [size, pos] = await Promise.all([
+          tauriWindow.outerSize(),
+          tauriWindow.outerPosition(),
+        ]);
+        const scale = window.devicePixelRatio;
+        presetSize = size.toLogical(scale);
+        presetPos = pos.toLogical(scale);
+      } catch (err) {
+        console.warn('Could not read preset geometry:', err);
+      }
+
+      // ── State ──
+      let isExpanded = false;
+
+      const EXPANDED_W = 640;
+      const EXPANDED_H = 400;
+
+      // ── Resize helpers ──
+      async function resizeWindow(width, height) {
+        try {
+          await tauriWindow.setSize(new LogicalSize(width, height));
+        } catch (err) {
+          console.error('Resize failed:', err);
+        }
+      }
+
+      async function positionWindow(x, y) {
+        try {
+          await tauriWindow.setPosition(new LogicalPosition(x, y));
+        } catch (err) {
+          console.error('Position failed:', err);
+        }
+      }
+
+      // ── Compute compact scale from canvas native size ──
+      function applyCompactScale() {
+        const canvas = document.getElementById('canvas');
+        const cw = canvas.width || 320;
+        const ch = canvas.height || 200;
+        const winW = presetSize ? presetSize.width : 64;
+        const winH = presetSize ? presetSize.height : 40;
+        const scale = Math.min(winW / cw, winH / ch);
+        canvas.style.transformOrigin = 'top left';
+        canvas.style.transform = 'scale(' + scale + ')';
+      }
+
+      function clearCompactScale() {
+        const canvas = document.getElementById('canvas');
+        canvas.style.transform = '';
+        canvas.style.transformOrigin = '';
+      }
+
+      // ── Expand / Collapse ──
+      async function expand() {
+        if (isExpanded) return;
+
+        if (presetPos && presetSize) {
+          const spaceBelow = window.screen.height - presetPos.y - presetSize.height;
+          if (spaceBelow < EXPANDED_H) {
+            await positionWindow(
+              presetPos.x,
+              presetPos.y - EXPANDED_H + presetSize.height,
+            );
+          }
+        }
+
+        await resizeWindow(EXPANDED_W, EXPANDED_H);
+
+        clearCompactScale();
+        document.body.className = 'expanded';
+        isExpanded = true;
+      }
+
+      async function collapse() {
+        if (!isExpanded) return;
+
+        const w = presetSize ? presetSize.width : 64;
+        const h = presetSize ? presetSize.height : 40;
+
+        await resizeWindow(w, h);
+
+        if (presetPos) {
+          await positionWindow(presetPos.x, presetPos.y);
+        }
+
+        document.body.className = 'compact';
+        applyCompactScale();
+        isExpanded = false;
+      }
+
+      // Apply initial compact scale once the canvas has a size
+      setTimeout(applyCompactScale, 2000);
+
+      // ── Click to expand (compact mode) ──
+      document.getElementById('canvas').addEventListener('click', () => {
+        if (!isExpanded) expand();
+      });
+
+      // ── Collapse button ──
+      document.getElementById('collapse-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        collapse();
+      });
+
+      // ── F9 key to collapse ──
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'F9') {
+          e.preventDefault();
+          collapse();
+        }
+      });
+    </script>
+  </body>
+</html>

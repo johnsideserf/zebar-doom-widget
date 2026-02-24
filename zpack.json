@@ -1,0 +1,57 @@
+{
+  "$schema": "https://github.com/glzr-io/zebar/raw/v3.0.0/resources/zpack-schema.json",
+  "name": "doom-widget",
+  "version": "1.0.0",
+  "description": "Play DOOM shareware inside your Zebar bar. Shows attract mode in a tiny preview, click to expand and play.",
+  "tags": ["doom", "game", "retro"],
+  "widgets": [
+    {
+      "name": "doom",
+      "htmlPath": "./doom.html",
+      "zOrder": "top_most",
+      "shownInTaskbar": false,
+      "focused": false,
+      "resizable": false,
+      "transparent": true,
+      "includeFiles": ["*.html", "*.css", "*.jsdos"],
+      "caching": {
+        "defaultDuration": 604800,
+        "rules": []
+      },
+      "presets": [
+        {
+          "name": "bar",
+          "anchor": "top_left",
+          "offsetX": "0px",
+          "offsetY": "0px",
+          "width": "64px",
+          "height": "40px",
+          "monitorSelection": {
+            "type": "primary"
+          },
+          "dockToEdge": {
+            "enabled": false,
+            "edge": null,
+            "windowMargin": "0px"
+          }
+        },
+        {
+          "name": "standalone",
+          "anchor": "center",
+          "offsetX": "0px",
+          "offsetY": "0px",
+          "width": "640px",
+          "height": "400px",
+          "monitorSelection": {
+            "type": "primary"
+          },
+          "dockToEdge": {
+            "enabled": false,
+            "edge": null,
+            "windowMargin": "0px"
+          }
+        }
+      ]
+    }
+  ]
+}

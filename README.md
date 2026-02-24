@@ -146,3 +146,7 @@ zip doom.jsdos DOOM2.EXE DOOM2.WAD
 - **Canvas scaling** in compact mode uses `CSS transform: scale()` computed dynamically from the canvas native resolution (320x200) vs the window size.
 - **No build step.** Everything loads from CDN. Edit files and restart Zebar to see changes.
 - **No shell privileges needed.** js-dos runs entirely in WebAssembly.
+
+---
+
+Part of my [Windows rice](https://github.com/johnsideserf/windows-ricing). See also: [zebar-spotify-widget](https://github.com/johnsideserf/zebar-spotify-widget) | [zebar-app-launcher](https://github.com/johnsideserf/zebar-app-launcher)
